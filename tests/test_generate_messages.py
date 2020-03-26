@@ -7,6 +7,10 @@ from squidreport.rules import BaseRule, Message
 @pytest.fixture
 def silent_rule():
     class SilentRule(BaseRule):
+        @property
+        def code(self):
+            return "SILENT"
+
         def evaluate(self):
             return []
 
@@ -16,8 +20,12 @@ def silent_rule():
 @pytest.fixture
 def verbose_rule():
     class VerboseRule(BaseRule):
+        @property
+        def code(self):
+            return "VERBOSE"
+
         def evaluate(self):
-            return [Message()]
+            return [Message(code=self.code)]
 
     return VerboseRule
 
@@ -28,3 +36,4 @@ def test_generate_messages(rule_config, silent_rule, verbose_rule):
     )
     assert messages
     assert all(isinstance(m, Message) for m in messages)
+    assert all(m.code == "VERBOSE" for m in messages)
