@@ -7,7 +7,6 @@ def parse_alexa_site_info():
     URL_a = "https://www.alexa.com/topsites"
     page_a = requests.get(URL_a)
     soup_a = BeautifulSoup(page_a.content, "html.parser")
-    print("")
     info_list = []
     return_list = []
     site_info = "/siteinfo/"

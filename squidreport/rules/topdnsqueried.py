@@ -1,5 +1,6 @@
-import pandas as pd
 import os
+
+import pandas as pd
 
 from . import BaseRule
 from .scraping import uniq_sort_list
@@ -73,6 +74,9 @@ def read_dns_log_file(config):
 
 
 class TopDNSQueriedRule(BaseRule):
+
+    TRIGGER_TRESHOLD = 10
+
     @property
     def code(self):
         return "TOPDNS"
@@ -87,5 +91,5 @@ class TopDNSQueriedRule(BaseRule):
             validate_list, logs_without_local
         )
 
-        if ratio > 0.5:
-            self.alert()
+        if ratio > self.TRIGGER_TRESHOLD:
+            self.alert(ratio=ratio, max=self.TRIGGER_TRESHOLD)

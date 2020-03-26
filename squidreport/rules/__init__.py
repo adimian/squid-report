@@ -17,7 +17,8 @@ class BaseRule(ABC):
     def evaluate(self):
         pass
 
-    def alert(self, context: str = ""):
+    def alert(self, **kwargs):
+        context = ", ".join(f"{k}={v}" for k, v in kwargs.items())
         self.messages.append(Message(code=self.code, context=context))
 
 
