@@ -20,4 +20,4 @@ class BaseRule(ABC):
 @attr.s
 class Message:
     code = attr.ib(type=str)
-    timestamp = attr.ib(type=arrow.Arrow, default=arrow.now)
+    timestamp = attr.ib(type=arrow.Arrow, factory=arrow.now)
