@@ -1,5 +1,6 @@
 import os
 import pytest
+from squidreport import Config
 
 
 @pytest.fixture
@@ -15,3 +16,10 @@ def data_dir(current_test_dir):
 @pytest.fixture
 def sample_config_file(data_dir):
     return os.path.join(data_dir, "sample-config.yml")
+
+
+@pytest.fixture
+def rule_config(data_dir):
+    return Config(
+        SQUID_API_DSN="", ZEEK_LOGS_DIRECTORY=os.path.join(data_dir, "logs")
+    )

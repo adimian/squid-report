@@ -12,3 +12,6 @@ class BaseRule(ABC):
 
 class Message:
     pass
+
+
+ALL_RULES = []
