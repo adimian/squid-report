@@ -25,7 +25,7 @@ def verbose_rule():
             return "VERBOSE"
 
         def evaluate(self):
-            return [Message(code=self.code)]
+            self.alert()
 
     return VerboseRule
 
