@@ -16,6 +16,7 @@ def send_messages(config, messages):
         payload = {
             "code": message.code,
             "timestamp": message.timestamp.isoformat(),
+            "context": message.context,
         }
         response = requests.post(config.SQUID_API_DSN, json=payload)
         if not response.ok:
