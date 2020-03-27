@@ -1,36 +1,6 @@
-import os
-
-import pandas as pd
-
 from . import BaseRule
 from .scraping import uniq_sort_list
-
-columns_conn = [
-    "ts",
-    "uid",
-    "id.orig_h",
-    "id.orig_p",
-    "id.resp_h",
-    "id.resp_p",
-    "proto",
-    "trans_id",
-    "rtt",
-    "query",
-    "qclass",
-    "qclass_name",
-    "qtype",
-    "qtype_name",
-    "rcode",
-    "rcode_name",
-    "AA",
-    "TC",
-    "RD",
-    "RA",
-    "Z",
-    "answers",
-    "TTLs",
-    "rejected",
-]
+from .read_log_file import get_dns_file
 
 
 def extract_dns_list_log(df):
@@ -64,15 +34,6 @@ def delete_local_site(log_list):
     return log_list_whitout_local
 
 
-def read_dns_log_file(config):
-    return pd.read_csv(
-        os.path.join(config.ZEEK_LOGS_DIRECTORY, "dns.log"),
-        sep="\t",
-        comment="#",
-        names=columns_conn,
-    )
-
-
 class TopDNSQueriedRule(BaseRule):
 
     TRIGGER_TRESHOLD = 10
@@ -83,7 +44,7 @@ class TopDNSQueriedRule(BaseRule):
 
     def evaluate(self):
         top_urls = uniq_sort_list()
-        df = read_dns_log_file(self.config)
+        df = get_dns_file(self.config)
         logs_list = extract_dns_list_log(df)
         validate_list = verifiy_dns(logs_list, top_urls)
         logs_without_local = delete_local_site(logs_list)
