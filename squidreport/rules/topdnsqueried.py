@@ -10,7 +10,8 @@ def extract_dns_list_log(df):
     return dns_list
 
 
-def verifiy_dns(receive_dns_list_log, top_urls):
+def verifiy_dns(receive_dns_list_log):
+    top_urls = uniq_sort_list()
     validate_dns_list = []
     for url in top_urls:
         for log in receive_dns_list_log:
@@ -43,10 +44,9 @@ class TopDNSQueriedRule(BaseRule):
         return "TOPDNS"
 
     def evaluate(self):
-        top_urls = uniq_sort_list()
         df = get_dns_file(self.config)
         logs_list = extract_dns_list_log(df)
-        validate_list = verifiy_dns(logs_list, top_urls)
+        validate_list = verifiy_dns(logs_list)
         logs_without_local = delete_local_site(logs_list)
         ratio = calculate_found_addresses_ratio(
             validate_list, logs_without_local
