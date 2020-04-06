@@ -1,5 +1,36 @@
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
+
+
+# receive data by wikipedia for scrape list of port and protocol
+def parse_wikipedia_port_proto():
+    URL = "https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers"
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, "html.parser")
+
+    port_info = pd.DataFrame()
+
+    for table in soup.find_all("table"):
+        table_parsed = []
+        if not table.caption:
+            continue
+        caption = table.caption.text.strip()
+        if "Legend" in caption:
+            continue
+        body = table.tbody
+        header = body.find("tr")
+        col_names = [
+            a.text.strip().replace("[1]", "").replace(" ", "_")
+            for a in header.find_all("th")
+        ]
+
+        for line in table.find_all("tr"):
+            values = [value.text.strip() for value in line.find_all("td")]
+            if len(values) == len(col_names):
+                table_parsed.append({k: v for k, v in zip(col_names, values)})
+        port_info = port_info.append(table_parsed, ignore_index=True)
+    return port_info
 
 
 # receive data by alexa.com and process infromation to remove extra characters
