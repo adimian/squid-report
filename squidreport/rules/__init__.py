@@ -32,6 +32,8 @@ class Message:
 # import all rules below this line
 from .topdnsqueried import TopDNSQueriedRule
 
+from .extreme_connections import ExtremeConnectionsRule
+
 
 #  enable all rules here
-ALL_RULES = (TopDNSQueriedRule,)
+ALL_RULES = (TopDNSQueriedRule, ExtremeConnectionsRule)

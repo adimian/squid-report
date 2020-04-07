@@ -21,7 +21,9 @@ def sample_config_file(data_dir):
 @pytest.fixture
 def rule_config(data_dir):
     return Config(
-        SQUID_API_DSN="", ZEEK_LOGS_DIRECTORY=os.path.join(data_dir, "logs")
+        SQUID_API_DSN="",
+        ZEEK_LOGS_DIRECTORY=os.path.join(data_dir, "logs"),
+        MODELS_DIRECTORY=os.path.join(data_dir, "model"),
     )
 
 
@@ -31,6 +33,7 @@ def config_with_log_dir(data_dir):
         return Config(
             SQUID_API_DSN="",
             ZEEK_LOGS_DIRECTORY=os.path.join(data_dir, "logs", last_part),
+            MODELS_DIRECTORY=os.path.join(data_dir, "model"),
         )
 
     return config_factory

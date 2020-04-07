@@ -1,5 +1,6 @@
 SQUID_API_DSN: http://user:password@localhost:8070/
 ZEEK_LOGS_DIRECTORY: tests/data/logs
+MODELS_DIRECTORY: tests/model
 DISABLE_RULES:
   - BEACON
   - WHOIS

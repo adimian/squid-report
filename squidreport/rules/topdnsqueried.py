@@ -1,6 +1,6 @@
 from . import BaseRule
-from .scraping import uniq_sort_list
-from .read_log_file import get_dns_file
+from .library.scraping import uniq_sort_list
+from .library.read_log_file import get_dns_file
 
 
 def extract_dns_list_log(df):
