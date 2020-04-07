@@ -4,6 +4,7 @@ from squidreport.rules.library.machine_learning import (
     clean_data,
     normalize_data,
     select_numerical_data,
+    delete_internal_connections,
 )
 
 
@@ -70,3 +71,30 @@ def test_it_select_numerical_data():
     numerical_data = select_numerical_data(d)
 
     assert sorted(list(numerical_data.columns)) == ["B", "C", "D"]
+
+
+def test_it_deletes_internal_connections():
+    known_host = ["10.0.0.53", "10.0.0.1"]
+    data = pandas.DataFrame(
+        {
+            "id_orig_h": ["10.0.0.53", "10.0.0.53"],
+            "id_resp_h": ["10.0.0.1", "193.97.0.4"],
+            "id_resp_p": [443, 443],
+            "proto": ["http", "dns"],
+            "service": ["-", "-"],
+            "conn_state": ["REJ", "S1"],
+            "ts": [1, 2],
+            "duration": [4, 6],
+        }
+    )
+
+    assert delete_internal_connections(data, known_host).to_dict("list") == {
+        "id_orig_h": ["10.0.0.53"],
+        "id_resp_h": ["193.97.0.4"],
+        "id_resp_p": [443],
+        "proto": ["dns"],
+        "service": ["-"],
+        "conn_state": ["S1"],
+        "ts": [2],
+        "duration": [6],
+    }

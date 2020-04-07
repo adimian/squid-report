@@ -66,3 +66,11 @@ def select_numerical_data(data):
         if np.issubdtype(data[col_name].dtype, np.number)
     ]
     return data[numeric_col_names].copy()
+
+
+def delete_internal_connections(data, known_hosts):
+    conn_file_log_value = data.loc[
+        (data["id_orig_h"].isin(known_hosts))
+        ^ (data["id_resp_h"].isin(known_hosts))
+    ]
+    return conn_file_log_value
