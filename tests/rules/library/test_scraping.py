@@ -1,4 +1,4 @@
-from squidreport.rules.scraping import parse_wikipedia_port_proto
+from squidreport.rules.library.scraping import parse_wikipedia_port_proto
 import pandas as pd
 
 
