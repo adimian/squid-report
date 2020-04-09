@@ -31,9 +31,9 @@ class Message:
 
 # import all rules below this line
 from .topdnsqueried import TopDNSQueriedRule
-
+from .whois_domains import WhoIsDomainsRule
 from .extreme_connections import ExtremeConnectionsRule
 
 
 #  enable all rules here
-ALL_RULES = (TopDNSQueriedRule, ExtremeConnectionsRule)
+ALL_RULES = (TopDNSQueriedRule, ExtremeConnectionsRule, WhoIsDomainsRule)
